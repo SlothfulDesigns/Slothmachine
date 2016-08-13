@@ -26,9 +26,9 @@ Renderer.prototype = {
 		this.context.clearColor(0.0, 0.0, 0.0, 1.0);
 		this.context.enable(this.context.DEPTH_TEST);
 		this.context.depthFunc(this.context.LEQUAL);
-		this.context.clear(this.context.BUFFER_COLOR_BIT | this.context.DEPTH_BUFFER_BIT);
+		this.context.clear(this.context.COLOR_BUFFER_BIT | this.context.DEPTH_BUFFER_BIT);
 	},
 	draw: function(){
-		this.context.clear(this.context.BUFFER_COLOR_BIT | this.context.DEPTH_BUFFER_BIT);
+		this.context.clear(this.context.COLOR_BUFFER_BIT | this.context.DEPTH_BUFFER_BIT);
 	}
 }
