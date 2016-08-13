@@ -1,0 +1,15 @@
+function Renderer(canvas) {
+
+	var gl = null;
+	gl = canvas.GetContext("webgl") || canvas.GetContext("experimental-webgl");
+
+	if(!gl) {
+		console.log("Failed to init webGL context");
+		return;
+	}
+
+	gl.clearColor(0.0, 0.0, 0.0, 1.0);
+	gl.enable(gl.DEPTH_TEST);
+	gl.depthFunc(gl.LEQUAL);
+	gl.clear(gl.COLOR_UFFER_BIT | gl.DEPTH_BUFFER_BIT);
+}
