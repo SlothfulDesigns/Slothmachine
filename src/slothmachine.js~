@@ -1,5 +1,0 @@
-function Slothmachine(canvas) {
-	var canvas = document.getElementById(canvas);
-
-	var renderer = Renderer(canvas);
-}
