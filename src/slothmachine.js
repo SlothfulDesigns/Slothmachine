@@ -1,11 +1,14 @@
-function Slothmachine(canvas) {
-	console.log("Slothmachine: Initializing Slothmachine...")
+function SlothMachine() {
+	this.canvasId = null;
+	this.renderer = null;
+}
 
-	var canvas = document.getElementById(canvas);
-
-	if (!canvas) {
-		console.log("Error: can't find canvas")
+SlothMachine.prototype = {
+	init: function(){
+		this.renderer = new Renderer();
+		this.renderer.init("game");
+	},
+	update: function(){
+		this.renderer.draw();
 	}
-
-	Renderer(canvas);
 }

@@ -1,17 +1,34 @@
-function Renderer(canvas) {
-	console.log("* Initializing renderer")
+function Renderer() {
+	this.canvas = null;
+	this.context = null;
+}
 
-	gl = canvas.getContext("webgl") || canvas.getContext("experimental-webgl");
+Renderer.prototype = {
 
-	if (!gl) {
-		console.log("Failed to init webGL context");
-		return;
+	init: function(canvasId){
+		console.log("Renderer: Initializing")
+
+		this.canvas = document.getElementById(canvasId);
+
+		if(!this.canvas){
+			console.log("Renderer: ERROR - can't find canvas!")
+		}
+		
+		this.context = this.canvas.getContext("webgl")
+			|| this.canvas.getContext("experimental-webgl");
+
+		if (!this.context) {
+			console.log("Renderer: ERROR - Failed to init webGL context");
+			return null;
+		}
+
+		this.context.viewport(0, 0, this.canvas.width, this.canvas.height);
+		this.context.clearColor(0.0, 0.0, 0.0, 1.0);
+		this.context.enable(this.context.DEPTH_TEST);
+		this.context.depthFunc(this.context.LEQUAL);
+		this.context.clear(this.context.BUFFER_COLOR_BIT | this.context.DEPTH_BUFFER_BIT);
+	},
+	draw: function(){
+		this.context.clear(this.context.BUFFER_COLOR_BIT | this.context.DEPTH_BUFFER_BIT);
 	}
-
-	gl.viewport(0, 0, canvas.width, canvas.height);
-
-	gl.clearColor(0.0, 0.0, 0.0, 1.0);
-	gl.enable(gl.DEPTH_TEST);
-	gl.depthFunc(gl.LEQUAL);
-	gl.clear(gl.BUFFER_COLOR_BIT | gl.DEPTH_BUFFER_BIT);
 }

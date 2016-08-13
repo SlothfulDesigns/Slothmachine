@@ -5,11 +5,24 @@
 		<script src="src/renderer/canvas.js"></script>
 	</head>
 	<body>
-		<canvas id="game" width="800" height="600"/>
+		<canvas id="game" width="800" height="600"></canvas>
 
 		<script type="text/javascript">
-			var gl = null;
-			Slothmachine("game");
+		    var fps = 60;
+			var game = new SlothMachine("game");
+			game.init();
+
+			function gameLoop(){
+
+				game.update();
+
+				setTimeout(function() {
+					gameLoop();
+				}, fps / 1000);
+			};
+
+			gameLoop();
+
 		</script>
 	</body>
 </html>
