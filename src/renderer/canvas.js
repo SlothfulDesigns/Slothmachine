@@ -1,6 +1,10 @@
 function Renderer() {
 	this.canvas = null;
 	this.context = null;
+	this.renderer = null;
+
+	this.width = 0;
+	this.height = 0;
 }
 
 Renderer.prototype = {
@@ -28,6 +32,7 @@ Renderer.prototype = {
 		this.context.depthFunc(this.context.LEQUAL);
 		this.context.clear(this.context.COLOR_BUFFER_BIT | this.context.DEPTH_BUFFER_BIT);
 	},
+
 	draw: function(){
 		this.context.clear(this.context.COLOR_BUFFER_BIT | this.context.DEPTH_BUFFER_BIT);
 	}

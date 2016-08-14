@@ -3,17 +3,63 @@
 		<title>Slothmachine Game Engine 0.666</title>
 		<script src="src/slothmachine.js"></script>
 		<script src="src/renderer/canvas.js"></script>
+		<script src="src/renderer/shader.js"></script>
+
+		<script id="2d-basic-vertex">
+			attribute vec4 Position;
+
+			void main()
+			{
+				gl_Position = Position;
+			}
+		</script>
+		<script id="2d-basic-fragment">
+			precision mediump float;
+
+			void main()
+			{
+				gl_FragColor = vec4(1.0, 0.0, 0.0, 1.0);
+			}
+		</script>
+
 	</head>
 	<body>
 		<canvas id="game" width="800" height="600"></canvas>
 		<script type="text/javascript">
 		    var fps = 60;
 			var game = new SlothMachine("game");
+
+			//init the engine and it's components
 			game.init();
 
+			//create shaders and shit so we can draw stuff on screen and see if it works
+			var gl = game.renderer.context;
+			var shader = new Shader();
+			var vertex = document.getElementById("2d-basic-vertex").text;
+			var frag = document.getElementById("2d-basic-fragment").text;
+
+			var v = shader.createShader(gl, gl.VERTEX_SHADER, vertex);
+			var f = shader.createShader(gl, gl.FRAGMENT_SHADER, frag);
+			var p = shader.createProgram(gl, v, f);
+
+			var positionAttrib = gl.getAttribLocation(p, "Position");
+			var positionBuffer = gl.createBuffer();
+			gl.bindBuffer(gl.ARRAY_BUFFER, positionBuffer);
+
+			var SPACESHIPWOW = [0.0, 0.0,
+								0.1, 0.1,
+								0.2, 0.0];
+			gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(SPACESHIPWOW), gl.STATIC_DRAW);
+			gl.enableVertexAttribArray(positionAttrib);
+			gl.vertexAttribPointer(positionAttrib, 2, gl.FLOAT, false, 0, 0);
+
+			gl.useProgram(p);
+
+			//start the game
 			function gameLoop(){
 
 				game.update();
+				gl.drawArrays(gl.TRIANGLES,0, 3);
 
 				setTimeout(function() {
 					gameLoop();
