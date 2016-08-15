@@ -1,10 +1,24 @@
-function Shader(){
-	this.vertex = null;
-	this.fragment = null;
-	this.program = null;
+function Shader(gl, shaderId){
+
+	var vertexSrc = document.getElementById(shaderId + "-vertex").text;
+	var fragSrc = document.getElementById(shaderId + "-fragment").text;
+	
+	this.vertex = this.createShader(gl, gl.VERTEX_SHADER, vertexSrc);
+	this.fragment = this.createShader(gl, gl.FRAGMENT_SHADER, fragSrc);
+	this.program = this.createProgram(gl, this.vertex, this.fragment);
+
+	this.attributes = {};
+	this.uniforms = {};
+
+	this.init(gl);
 }
 
 Shader.prototype = {
+
+	init: function(gl){
+		this.attributes.position = gl.getAttribLocation(this.program, "Position");
+	},
+
 	createShader: function(context, type, source){
 		var shader = context.createShader(type);
 		context.shaderSource(shader, source);
@@ -13,14 +27,14 @@ Shader.prototype = {
 		var success = context.getShaderParameter(shader, context.COMPILE_STATUS);
 		if(success){
 
-			switch(type){
+			switch(type) {
 				case context.VERTEX_SHADER:
 					this.vertex = shader;
 					break;
 				case context.FRAGMENT_SHADER:
 					this.fragment = shader;
 					break;
-			};
+			}
 
 			return shader;
 		}
@@ -46,4 +60,4 @@ Shader.prototype = {
 			context.deleteProgram(program);
 		}
 	}
-}
+};
