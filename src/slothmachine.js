@@ -10,7 +10,7 @@ SlothMachine.prototype = {
 		this.renderer.init("game");
 
 	},
-	update: function(){
+	update: function() {
 		this.renderer.draw();
 	}
 }

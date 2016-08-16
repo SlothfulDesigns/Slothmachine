@@ -20,9 +20,9 @@ function Transform() {
 
 Transform.prototype = {
 	getMatrix: function(){
-		var mat = mat3Multiply(this.scale, this.rotation);
-		mat = mat3Multiply(mat, this.position);
-		mat = mat3Multiply(mat, game.renderer.projection);
+		var mat = matrixMultiply(this.position, this.rotation);
+		mat = matrixMultiply(mat, this.scale);
+		mat = matrixMultiply(mat, game.renderer.projection);
 
 		return mat;
 	},
@@ -32,14 +32,16 @@ Transform.prototype = {
 		this.position[7] = y;
 	},
 
-	setRotation: function(r) {
-		var cos = Math.cos(r);
-		var sin = Math.sin(r);
+	setRotation: function(a) {
 
-		this.position[0] = cos;
-		this.position[1] = -sin;
-		this.position[2] = sin;
-		this.position[3] = cos;
+		var rad = (360.0 - a) * (Math.PI / 180.0); 
+		var cos = Math.cos(rad);
+		var sin = Math.sin(rad);
+
+		this.rotation[0] = cos;
+		this.rotation[1] = -sin;
+		this.rotation[3] = sin;
+		this.rotation[4] = cos;
 	},
 
 	setScale: function(sx, sy) {

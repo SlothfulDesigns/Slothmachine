@@ -38,8 +38,8 @@ Renderer.prototype = {
 		this.context.clear(this.context.COLOR_BUFFER_BIT | this.context.DEPTH_BUFFER_BIT);
 
 		this.projection = new Float32Array([
-			2.0 / this.width, 0.0, 0.0,
-			0.0, -2.0 / this.height, 0.0,
+			2.0 / this.canvas.clientWidth, 0.0, 0.0,
+			0.0, -2.0 / this.canvas.clientHeight, 0.0,
 			-1.0, 1.0, 1.0
 		]);
 	},

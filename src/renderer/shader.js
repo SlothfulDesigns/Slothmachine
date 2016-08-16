@@ -20,6 +20,7 @@ Shader.prototype = {
 		this.attributes.position = gl.getAttribLocation(this.program, "Position");
 
 		//create shader uniforms
+		this.uniforms.resolution = gl.getUniformLocation(this.program, "u_resolution");
 		this.uniforms.translation = gl.getUniformLocation(this.program, "u_translation");
 	},
 

@@ -2,19 +2,26 @@
 	<head>
 		<title>Slothmachine Game Engine 0.666</title>
 		<script src="src/slothmachine.js"></script>
+		<script src="src/util/math.js"></script>
+		<script src="src/transform.js"></script>
 		<script src="src/renderer/canvas.js"></script>
 		<script src="src/renderer/shader.js"></script>
 		<script src="src/entity.js"></script>
 
-		<script id="default-vertex">
-			attribute vec4 Position;
+		<script id="default-vertex" type="x-shader/x-vertex">
+			attribute vec2 Position;
+
+			uniform vec2 u_resolution;
+			uniform mat3 u_translation;
 
 			void main()
 			{
-				gl_Position = Position;
+				vec2 pos = (u_translation * vec3(Position, 1.0)).xy;
+				//gl_Position = vec4(pos, 0.0, 1.0);
+				gl_Position = vec4(Position, 0.0, 1.0);
 			}
 		</script>
-		<script id="default-fragment">
+		<script id="default-fragment" type="x-shader/x-fragment">
 			precision mediump float;
 
 			void main()
@@ -35,18 +42,30 @@
 
 			//create shaders and shit so we can draw stuff on screen and see if it works
 			var gl = game.renderer.context;
+
 			var spaceship = new Entity();
-			spaceship.mesh = [0.0, 0.0,
-							  0.1, 0.1,
-							  0.2, 0.0];
+			spaceship.mesh = new Float32Array(
+				[0.0, 0.0,
+				 0.1, 0.1,
+				 0.2, 0.0]);
 			spaceship.shader = new Shader(gl, "default");
 			spaceship.init(gl);
 			spaceship.render = true;
+			spaceship.position.x = 5; //game.renderer.canvas.clientWidth / 2;
+			spaceship.position.y = 5; //game.renderer.canvas.clientHeight / 2;
+
+			var ticks = 0;
 
 			//start the game
 			function gameLoop(){
+
 				game.update();
+
+				//spaceship.position.x += Math.sin(ticks);
+				spaceship.update();
 				spaceship.draw(gl);
+
+				ticks++;
 
 				setTimeout(function() {
 					gameLoop();
