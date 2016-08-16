@@ -16,7 +16,11 @@ function Shader(gl, shaderId){
 Shader.prototype = {
 
 	init: function(gl){
+		//create shader attributes
 		this.attributes.position = gl.getAttribLocation(this.program, "Position");
+
+		//create shader uniforms
+		this.uniforms.translation = gl.getUniformLocation(this.program, "u_translation");
 	},
 
 	createShader: function(context, type, source){

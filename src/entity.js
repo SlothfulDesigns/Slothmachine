@@ -1,9 +1,13 @@
 function Entity() {
+	//simplified stuffs
 	this.position	= {x: 0.0, y: 0.0, z: 0.0};
 	this.rotation	= {x: 0.0, y: 0.0, z: 0.0};
 	this.scale		= {x: 0.0, y: 0.0, z: 0.0};
 	this.velocity   = {x: 0.0, y: 0.0, z: 0.0};
 	this.color      = {r: 0.0, g: 0.0, b: 0.0};
+
+	//position, rotation & scale matrices
+	this.transform = new Transform();
 	
 	this.alive		= false;
 	this.item		= false;
@@ -56,7 +60,7 @@ Entity.prototype = {
 	},
 
 	update: function(){
-		
+		this.transform.setPosition(this.position.x, this.position.y);
 	},
 
 	draw: function(gl){
@@ -65,7 +69,10 @@ Entity.prototype = {
 
 		//bind the shader
 		gl.useProgram(this.shader.program);
-		
+
+		gl.uniformMatrix3fv(this.shader.uniforms.translation, gl.FALSE, this.transform.getMatrix());
+
+
 		//draw vertex array
 		var numIndices = this.mesh.length / 2; //because one x/y pair is one indice
 		gl.drawArrays(gl.TRIANGLES,0, numIndices);
