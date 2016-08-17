@@ -40,18 +40,23 @@ Renderer.prototype = {
 		this.context.depthFunc(this.context.LEQUAL);
 		this.context.clear(this.context.COLOR_BUFFER_BIT | this.context.DEPTH_BUFFER_BIT);
 
+		var w = 2 / this.width;
+		var h = 2 / this.height;
+
+		//orthographic projection matrix
 		this.projection = new Float32Array([
-			2.0 / this.width, 0.0, 0.0, -1.0,
-			0.0, 2.0 / this.height, 0.0, -1.0,
-			0.0, 0.0, -2.0 / (this.far - this.near), (this.near + this.far) / (this.near - this.far),
+			1.0, 0.0, 0.0, 0.0,
+			0.0, 1.0, 0.0, 0.0,
+			0.0, 0.0, 1.0, 0.0,
 			0.0, 0.0, 0.0, 1.0,
 		]);
 
+		//static viewmatrix because we've got no camera (yet?)
 		this.view = new Float32Array([
-			0.0, 0.0, 0.0, 0.0,
-			0.0, 0.0, 1.0, 0.0,
-			0.0, 1.0, 0.0, 0.0,
-			0.0, 0.0, 0.0, 0.0,
+			1.0, 0.0, 0.0, 0.0, //eye position
+			0.0, 1.0, 0.0, 0.0,  //forward, looking towards Z
+			0.0, 0.0, 1.0, 0.0,  //up (read: Y axis in our case)
+			0.0, 0.0, 0.0, 1.0,  //filler please ignore
 		]);
 	},
 

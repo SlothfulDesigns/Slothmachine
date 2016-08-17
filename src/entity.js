@@ -62,8 +62,8 @@ Entity.prototype = {
 	update: function(){
 
 		if(this.velocity.x !== 0 || this.velocity.y !== 0) {
-			this.position.x += this.speed;
-			this.position.y += this.speed;
+			this.position.x += this.velocity.x * this.speed;
+			this.position.y += this.velocity.y * this.speed;
 		}
 		
 		this.transform.setPosition(this.position.x, this.position.y);
