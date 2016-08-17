@@ -5,6 +5,7 @@ function Entity() {
 	this.velocity   = {x: 0.0, y: 0.0};
 	this.color      = {r: 0.0, g: 0.0, b: 0.0};
 	this.rotation	= 0;
+	this.speed      = 5.0;
 
 	//position, rotation & scale matrices
 	this.transform = new Transform();
@@ -59,6 +60,12 @@ Entity.prototype = {
 	},
 
 	update: function(){
+
+		if(this.velocity.x !== 0 || this.velocity.y !== 0) {
+			this.position.x += this.speed;
+			this.position.y += this.speed;
+		}
+		
 		this.transform.setPosition(this.position.x, this.position.y);
 		this.transform.setRotation(this.rotation);
 		this.transform.setScale(this.scale.x, this.scale.y);
