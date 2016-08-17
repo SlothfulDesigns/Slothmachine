@@ -7,7 +7,7 @@ function Entity() {
 
 	this.color      = {r: 0.0, g: 0.0, b: 0.0};
 
-	this.speed      = 0.1;
+	this.speed      = 0.01;
 
 	//position, rotation & scale matrices
 	this.transform = new Transform();

@@ -13,13 +13,13 @@ Input.prototype = {
 				game.player.velocity.x = -1;
 				break;
 			case 38:
-				game.player.velocity.y = -1;
+				game.player.velocity.y = 1;
 				break;
 			case 39:
 				game.player.velocity.x = 1;
 				break;
 			case 40:
-				game.player.velocity.y = 1;
+				game.player.velocity.y = -1;
 				break;
 		}
 	},

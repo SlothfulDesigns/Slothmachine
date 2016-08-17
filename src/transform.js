@@ -13,9 +13,9 @@ Transform.prototype = {
 	},
 
 	setPosition: function(x, y, z) {
-		this.position[3] = x;
-		this.position[7] = y;
-		this.position[11] = y;
+		this.position[12] = x;
+		this.position[13] = y;
+		this.position[14] = z;
 	},
 
 	setRotation: function(x, y, z) {
