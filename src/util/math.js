@@ -77,6 +77,15 @@ function identityMatrix(){
 
 function Perspective(fov, aspect, zNear, zFar){
 	var perspective = new identityMatrix();
+	var halfTanFov = Math.tan(fov / 2);
+
+	perspective[0] = 1 / (halfTanFov * aspect);
+	perspective[5] = 1 / halfTanFov;
+	perspective[10] = -1;
+
+	perspective[9] = - (zFar + zNear) / (zFar - zNear);
+	perspective[8] = - (2 * zFar * zNear) / (zFar - zNear);
+	
 	return perspective;
 }
 

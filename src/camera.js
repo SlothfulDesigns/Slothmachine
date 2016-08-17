@@ -13,7 +13,7 @@ Camera.prototype = {
 	},
 
 	getProjection: function() {
-		return this.view;
+		return this.projection;
 	},
 
 	getDirection: function() {
