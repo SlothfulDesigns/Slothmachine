@@ -1,10 +1,10 @@
 function Entity() {
 	//simplified stuffs
-	this.position	= {x: 0.0, y: 0.0, z: 0.0};
-	this.rotation	= {x: 0.0, y: 0.0, z: 0.0};
-	this.scale		= {x: 1.0, y: 1.0, z: 1.0};
-	this.velocity   = {x: 0.0, y: 0.0, z: 0.0};
+	this.position	= {x: 0.0, y: 0.0};
+	this.scale		= {x: 1.0, y: 1.0};
+	this.velocity   = {x: 0.0, y: 0.0};
 	this.color      = {r: 0.0, g: 0.0, b: 0.0};
+	this.rotation	= 0;
 
 	//position, rotation & scale matrices
 	this.transform = new Transform();
@@ -60,13 +60,13 @@ Entity.prototype = {
 
 	update: function(){
 		this.transform.setPosition(this.position.x, this.position.y);
-		//this.transform.setRotation(0);
+		this.transform.setRotation(this.rotation);
 		this.transform.setScale(this.scale.x, this.scale.y);
 	},
 
 	draw: function(gl){
 
-		if(!this.render) return;
+		if (!this.render) return;
 
 		//bind the shader
 		gl.useProgram(this.shader.program);
@@ -75,7 +75,7 @@ Entity.prototype = {
 
 		//update uniforms
 		gl.uniform2f(this.shader.uniforms.resolution, gl.FALSE, res);
-		gl.uniformMatrix3fv(this.shader.uniforms.translation, gl.FALSE, this.transform.getMatrix());
+		gl.uniformMatrix2fv(this.shader.uniforms.translation, gl.FALSE, this.transform.getMatrix());
 
 		//draw vertex array
 		var numIndices = this.mesh.length / 2; //because one x/y pair is one indice

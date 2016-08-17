@@ -7,18 +7,19 @@
 		<script src="src/renderer/canvas.js"></script>
 		<script src="src/renderer/shader.js"></script>
 		<script src="src/entity.js"></script>
+		<script src="src/input/input.js"></script>
 
 		<script id="default-vertex" type="x-shader/x-vertex">
 			attribute vec2 Position;
 
 			uniform vec2 u_resolution;
-			uniform mat3 u_translation;
+			uniform mat2 u_translation;
 
 			void main()
 			{
-				vec2 pos = (u_translation * vec3(Position, 1.0)).xy;
-				//gl_Position = vec4(pos, 0.0, 1.0);
-				gl_Position = vec4(Position, 0.0, 1.0);
+				vec2 p = u_translation * Position;
+				gl_Position = vec4(p, 0.0, 1.0);
+				//gl_Position = vec4(Position, 0.0, 1.0);
 			}
 		</script>
 		<script id="default-fragment" type="x-shader/x-fragment">
@@ -51,17 +52,18 @@
 			spaceship.shader = new Shader(gl, "default");
 			spaceship.init(gl);
 			spaceship.render = true;
-			spaceship.position.x = 5; //game.renderer.canvas.clientWidth / 2;
-			spaceship.position.y = 5; //game.renderer.canvas.clientHeight / 2;
+			spaceship.position.x = game.renderer.canvas.width / 2;
+			spaceship.position.y = game.renderer.canvas.height / 2;
+			spaceship.rotation = 0;
 
 			var ticks = 0;
+			game.player = spaceship;
 
 			//start the game
 			function gameLoop(){
 
 				game.update();
 
-				//spaceship.position.x += Math.sin(ticks);
 				spaceship.update();
 				spaceship.draw(gl);
 

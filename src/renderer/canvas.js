@@ -2,7 +2,7 @@ function Renderer() {
 	this.canvas = null;
 	this.context = null;
 	this.renderer = null;
-
+	
 	this.width = 0;
 	this.height = 0;
 
@@ -37,10 +37,12 @@ Renderer.prototype = {
 		this.context.depthFunc(this.context.LEQUAL);
 		this.context.clear(this.context.COLOR_BUFFER_BIT | this.context.DEPTH_BUFFER_BIT);
 
+		var xMax = this.canvas.width - 1.0;
+		var yMax = this.canvas.height - 1.0;
+
 		this.projection = new Float32Array([
-			2.0 / this.canvas.clientWidth, 0.0, 0.0,
-			0.0, -2.0 / this.canvas.clientHeight, 0.0,
-			-1.0, 1.0, 1.0
+			2.0 / xMax, 0.0,
+			0.0, 2.0 / yMax
 		]);
 	},
 
