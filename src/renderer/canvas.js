@@ -1,12 +1,15 @@
 function Renderer() {
 	this.canvas = null;
 	this.context = null;
-	this.renderer = null;
+	this.projection = null;
+	this.view = null;
 	
 	this.width = 0;
 	this.height = 0;
 
-	this.projection = null;
+	this.far = 100.0;
+	this.near = 0.1;
+
 }
 
 Renderer.prototype = {
@@ -37,12 +40,18 @@ Renderer.prototype = {
 		this.context.depthFunc(this.context.LEQUAL);
 		this.context.clear(this.context.COLOR_BUFFER_BIT | this.context.DEPTH_BUFFER_BIT);
 
-		var xMax = this.canvas.width - 1.0;
-		var yMax = this.canvas.height - 1.0;
-
 		this.projection = new Float32Array([
-			2.0 / xMax, 0.0,
-			0.0, 2.0 / yMax
+			2.0 / this.width, 0.0, 0.0, -1.0,
+			0.0, 2.0 / this.height, 0.0, -1.0,
+			0.0, 0.0, -2.0 / (this.far - this.near), (this.near + this.far) / (this.near - this.far),
+			0.0, 0.0, 0.0, 1.0,
+		]);
+
+		this.view = new Float32Array([
+			0.0, 0.0, 0.0, 0.0,
+			0.0, 0.0, 1.0, 0.0,
+			0.0, 1.0, 0.0, 0.0,
+			0.0, 0.0, 0.0, 0.0,
 		]);
 	},
 

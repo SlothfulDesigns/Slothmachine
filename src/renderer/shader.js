@@ -21,7 +21,9 @@ Shader.prototype = {
 
 		//create shader uniforms
 		this.uniforms.resolution = gl.getUniformLocation(this.program, "u_resolution");
-		this.uniforms.translation = gl.getUniformLocation(this.program, "u_translation");
+		this.uniforms.model = gl.getUniformLocation(this.program, "u_model");
+		this.uniforms.view = gl.getUniformLocation(this.program, "u_view");
+		this.uniforms.projection = gl.getUniformLocation(this.program, "u_projection");
 	},
 
 	createShader: function(context, type, source){

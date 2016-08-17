@@ -13,12 +13,14 @@
 			attribute vec2 Position;
 
 			uniform vec2 u_resolution;
-			uniform mat2 u_translation;
+			uniform mat4 u_model;
+			uniform mat4 u_projection;
+			uniform mat4 u_view;
 
 			void main()
 			{
-				vec2 p = u_translation * Position;
-				gl_Position = vec4(p, 0.0, 1.0);
+				vec4 pos = u_model * vec4(Position, 0.0, 1.0);
+				gl_Position = pos;
 				//gl_Position = vec4(Position, 0.0, 1.0);
 			}
 		</script>
@@ -52,9 +54,6 @@
 			spaceship.shader = new Shader(gl, "default");
 			spaceship.init(gl);
 			spaceship.render = true;
-			spaceship.position.x = game.renderer.canvas.width / 2;
-			spaceship.position.y = game.renderer.canvas.height / 2;
-			spaceship.rotation = 0;
 
 			var ticks = 0;
 			game.player = spaceship;

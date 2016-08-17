@@ -1,37 +1,20 @@
 function Transform() {
-	this.position = new Float32Array([
-		1.0, 0.0,
-		0.0, 1.0
-	]);
-
-	this.rotation = new Float32Array([
-		1.0, 0.0,
-		0.0, 1.0
-	]);
-
-	this.scale = new Float32Array([
-		1.0, 0.0,
-		0.0, 1.0
-	]);
+	this.position = new identityMatrix();
+	this.rotation = new identityMatrix();
+	this.scale = new identityMatrix();
 }
 
 Transform.prototype = {
 	getMatrix: function(){
-		var mat = new Float32Array([
-			1.0, 0.0,
-			0.0, 1.0
-		]);
-		mat = mat2Multiply(mat, this.position);
-		mat = mat2Multiply(mat, this.rotation);
-		mat = mat2Multiply(mat, this.scale);
-		//mat = mat2Multiply(mat, game.renderer.projection);
+		mat = mat4Multiply(this.position, this.rotation);
+		mat = mat4Multiply(mat, this.scale);
 
 		return mat;
 	},
 
 	setPosition: function(x, y) {
-		this.position[2] = x;
-		this.position[3] = y;
+		this.position[3] = x;
+		this.position[7] = y;
 	},
 
 	setRotation: function(a) {
@@ -42,12 +25,12 @@ Transform.prototype = {
 
 		this.rotation[0] = cos;
 		this.rotation[1] = -sin;
-		this.rotation[2] = sin;
-		this.rotation[3] = cos;
+		this.rotation[4] = sin;
+		this.rotation[5] = cos;
 	},
 
 	setScale: function(sx, sy) {
 		this.scale[0] = sx;
-		this.scale[3] = sy;
+		this.scale[5] = sy;
 	}
 };
