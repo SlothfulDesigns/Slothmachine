@@ -1,18 +1,19 @@
 function SlothMachine() {
 	this.canvasId = null;
-	this.renderer = null;
-	this.context = null;
-	this.input = null;
+	this.renderer = new Renderer();
+	this.camera = new Camera();
+	this.input = new Input();
 }
 
 SlothMachine.prototype = {
 	init: function(){
-		this.renderer = new Renderer();
 		this.renderer.init("game");
+		var aspect = this.renderer.width / this.renderer.height;
+		this.camera.setAspectRatio(90, aspect);
 
-		this.input = new Input();
 	},
+
 	update: function() {
 		this.renderer.draw();
-	}
+	},
 };

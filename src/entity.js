@@ -86,8 +86,8 @@ Entity.prototype = {
 		//update uniforms
 		gl.uniform2f(this.shader.uniforms.resolution, gl.FALSE, res);
 		gl.uniformMatrix4fv(this.shader.uniforms.model, gl.FALSE, this.transform.getMatrix());
-		gl.uniformMatrix4fv(this.shader.uniforms.view, gl.FALSE, game.renderer.view);
-		gl.uniformMatrix4fv(this.shader.uniforms.projection, gl.FALSE, game.renderer.projection);
+		gl.uniformMatrix4fv(this.shader.uniforms.view, gl.FALSE, game.camera.getView());
+		gl.uniformMatrix4fv(this.shader.uniforms.projection, gl.FALSE, game.camera.getProjection());
 
 		//draw vertex array
 		var numIndices = this.mesh.length / 3;
