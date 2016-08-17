@@ -1,9 +1,96 @@
+/*
+Doing my own math library because brain damage.
+Has all the usefull mathematical stuff for vectors and matrixes.
+*/
+
+
+//vector mathses
+
+function vec3(){
+	return new Float32Array([
+		0.0, 0.0, 0.0
+	]);
+}
+
+function v3Add(v1, v2){
+	return new Float32Array([
+		v1[0] + v2[0],
+		v1[1] + v2[1],
+		v1[2] + v2[2],
+	]);
+}
+
+function v3Sub(v1, v2){
+	return new Float32Array([
+		v1[0] - v2[0],
+		v1[1] - v2[1],
+		v1[2] - v2[2],
+	]);
+}
+
+function v3Mult(v1, v2){
+	return new Float32Array([
+		v1[0] * v2[0],
+		v1[1] * v2[1],
+		v1[2] * v2[2],
+	]);
+}
+
+function v3Length(v){
+	return Math.sqrt((v[0] * v[0]) +
+					 (v[1] * v[1]) +
+					 (v[2] * v[2]));
+}
+
+function v3Normalize(v){
+	var l = v3Length(v);
+	return new Float32Array([
+		v.x / l,
+		v.y / l,
+		v.z / l
+	]);
+}
+
+function v3Cross(v1, v2){
+	return new Float32Array([
+		v3Mult(v1[1], v2[2]) - v3Mult(v1[2], v2[1]),
+		v3Mult(v1[2], v2[0]) - v3Mult(v1[0], v2[2]),
+		v3Mult(v1[0], v2[1]) - v3Mult(v1[1], v2[0]),
+	]);
+}
+
+function v3Dot(v1, v2){
+	return v3Mult(v1[0], v2[0]) +
+		v3Mult(v1[1], v2[1]) +
+		v3Mult(v1[2], v2[2]);
+}
+
+//matrix mathses
 function identityMatrix(){
 	return new Float32Array([
 		1.0, 0.0, 0.0, 0.0,
 		0.0, 1.0, 0.0, 0.0,
 		0.0, 0.0, 1.0, 0.0,
 		0.0, 0.0, 0.0, 1.0,
+	]);
+}
+
+function Perspective(fov, aspect, zNear, zFar){
+	var perspective = new identityMatrix();
+	return perspective;
+}
+
+function LookAt(position, direction, up){
+
+	var z = v3Normalize(v3Sub(position, direction));
+	var y = v3Normalize(up);
+	var x = v3Normalize(v3Cross(y, z));
+	
+	return new Float32Array([
+		x[0], x[1], x[2], -v3Dot(x, position),
+		y[0], y[1], y[2], -v3Dot(y, position),
+		z[0], z[1], z[2], -v3Dot(z, position),
+		0.0, 0.0, 0.0, 1.0
 	]);
 }
 

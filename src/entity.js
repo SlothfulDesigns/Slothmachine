@@ -1,15 +1,17 @@
 function Entity() {
 	//simplified stuffs
-	this.position	= {x: 0.0, y: 0.0};
-	this.scale		= {x: 1.0, y: 1.0};
-	this.velocity   = {x: 0.0, y: 0.0};
+	this.position	= {x: 0.0, y: 0.0, z: 0.0};
+	this.scale		= {x: 1.0, y: 1.0, z: 0.0};
+	this.velocity   = {x: 0.0, y: 0.0, z: 0.0};
+	this.rotation   = {x: 0.0, y: 0.0, z: 0.0};
+
 	this.color      = {r: 0.0, g: 0.0, b: 0.0};
-	this.rotation	= 0;
-	this.speed      = 5.0;
+
+	this.speed      = 0.1;
 
 	//position, rotation & scale matrices
 	this.transform = new Transform();
-	
+
 	this.alive		= false;
 	this.item		= false;
 	this.equippable = false;
@@ -18,14 +20,14 @@ function Entity() {
 
 	this.shader = null;
 
-	//default mesh: a simple cube
+	//default mesh: a simple plane
 	this.mesh = new Float32Array(
-		[0.0, 0.0,
-		 0.0, 1.0,
-		 1.0, 0.0,
-		 1.0, 0.0,
-		 1.0, 1.0,
-		 0.0, 1.0]);
+		[0.0, 0.0, 0.0,
+		 0.0, 1.0, 0.0,
+		 1.0, 0.0, 0.0,
+		 1.0, 0.0, 0.0,
+		 1.0, 1.0, 0.0,
+		 0.0, 1.0, 0.0]);
 }
 
 Entity.prototype = {
@@ -40,7 +42,7 @@ Entity.prototype = {
 
 		//position
 		gl.enableVertexAttribArray(aPos);
-		gl.vertexAttribPointer(aPos, 2, gl.FLOAT, false, 0, 0);
+		gl.vertexAttribPointer(aPos, 3, gl.FLOAT, false, 0, 0);
 	},
 
 	spawn: function(){
@@ -61,14 +63,15 @@ Entity.prototype = {
 
 	update: function(){
 
-		if(this.velocity.x !== 0 || this.velocity.y !== 0) {
+		if(this.velocity.x !== 0 || this.velocity.y !== 0 || this.velocity.z !== 0) {
 			this.position.x += this.velocity.x * this.speed;
 			this.position.y += this.velocity.y * this.speed;
+			this.position.z += this.velocity.z * this.speed;
 		}
 		
-		this.transform.setPosition(this.position.x, this.position.y);
-		this.transform.setRotation(this.rotation);
-		this.transform.setScale(this.scale.x, this.scale.y);
+		this.transform.setPosition(this.position.x, this.position.y, this.position.z);
+		this.transform.setRotation(this.rotation.x, this.rotation.y, this.rotation.z);
+		this.transform.setScale(this.scale.x, this.scale.y, this.scale.z);
 	},
 
 	draw: function(gl){
@@ -87,7 +90,7 @@ Entity.prototype = {
 		gl.uniformMatrix4fv(this.shader.uniforms.projection, gl.FALSE, game.renderer.projection);
 
 		//draw vertex array
-		var numIndices = this.mesh.length / 2; //because one x/y pair is one indice
+		var numIndices = this.mesh.length / 3;
 		gl.drawArrays(gl.TRIANGLES,0, numIndices);
 	}
 };

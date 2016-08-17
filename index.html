@@ -10,7 +10,7 @@
 		<script src="src/input/input.js"></script>
 
 		<script id="default-vertex" type="x-shader/x-vertex">
-			attribute vec2 Position;
+			attribute vec3 Position;
 
 			uniform vec2 u_resolution;
 
@@ -20,7 +20,7 @@
 
 			void main()
 			{
-				vec4 pos = u_model * u_projection * vec4(Position, 0.0, 1.0);
+				vec4 pos = u_model * u_view * u_projection * vec4(Position, 1.0);
 				gl_Position = pos;
 			}
 		</script>
@@ -48,12 +48,16 @@
 
 			var spaceship = new Entity();
 			spaceship.mesh = new Float32Array(
-				[0.0, 0.0,
-				 0.1, 0.1,
-				 0.2, 0.0]);
+				[0.0, 0.0, 0.0,
+				 0.1, 0.1, 0.0,
+				 0.2, 0.0, 0.0]);
+
 			spaceship.shader = new Shader(gl, "default");
 			spaceship.init(gl);
 			spaceship.render = true;
+
+			//spaceship.position.x = 400;
+			//spaceship.position.y = 300;
 
 			var ticks = 0;
 			game.player = spaceship;
