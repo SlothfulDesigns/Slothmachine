@@ -16,10 +16,12 @@ function Shader(gl, shaderId){
 Shader.prototype = {
 
 	init: function(gl){
-		//create shader attributes
-		this.attributes.position = gl.getAttribLocation(this.program, "Position");
+		//create shader attributes (static stuff like mesh, normal, texture coordinates)
+		this.attributes.position = gl.getAttribLocation(this.program, "a_position");
+		this.attributes.normal = gl.getAttribLocation(this.program, "a_normal");
+		this.attributes.texcoords = gl.getUniformLocation(this.program, "a_texCoords");
 
-		//create shader uniforms
+		//create shader uniforms (stuff that changes like location, rotation, scale)
 		this.uniforms.resolution = gl.getUniformLocation(this.program, "u_resolution");
 		this.uniforms.model = gl.getUniformLocation(this.program, "u_model");
 		this.uniforms.view = gl.getUniformLocation(this.program, "u_view");

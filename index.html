@@ -12,7 +12,9 @@
 		<script src="src/slothmachine.js"></script>
 
 		<script id="default-vertex" type="x-shader/x-vertex">
-			attribute vec3 Position;
+			attribute vec3 a_position;
+			attribute vec3 a_normal;
+			attribute vec2 a_texCoords;
 
 			uniform vec2 u_resolution;
 
@@ -22,7 +24,7 @@
 
 			void main()
 			{
-				vec4 pos = u_model * u_view * u_projection * vec4(Position, 1.0);
+				vec4 pos = u_model * u_view * u_projection * vec4(a_position, 1.0);
 				gl_Position = pos;
 			}
 		</script>

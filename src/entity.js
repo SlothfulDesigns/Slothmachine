@@ -28,21 +28,60 @@ function Entity() {
 		 1.0, 0.0, 0.0,
 		 1.0, 1.0, 0.0,
 		 0.0, 1.0, 0.0]);
+
+	this.uv = new Float32Array([
+		0.0, 0.0,
+		0.0, 1.0,
+		1.0, 1.0,
+		1.0, 0.0
+	]);
+
+	this.normals = new Float32Array([
+		0.0, -1.0, 0.0
+	]);
 }
 
 Entity.prototype = {
 	init: function(gl) {
-		var positionBuffer = gl.createBuffer();
+
+		var vbo = {
+			position: {
+				buffer: gl.createBuffer(),
+				itemSize: 3
+			},
+			normal: {
+				buffer: gl.createBuffer(),
+				itemSize: 3
+			},
+			tex: {
+				buffer: gl.createBuffer(),
+				itemSize: 2
+			},
+		};
+
+		//vertex position
 		var aPos = this.shader.attributes.position;
-
-		gl.bindBuffer(gl.ARRAY_BUFFER, positionBuffer);
-		gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(this.mesh), gl.STATIC_DRAW);
-
-		//attributes for shader
-
-		//position
+		gl.bindBuffer(gl.ARRAY_BUFFER, vbo.position.buffer);
+		gl.bufferData(gl.ARRAY_BUFFER, this.mesh, gl.STATIC_DRAW);
 		gl.enableVertexAttribArray(aPos);
-		gl.vertexAttribPointer(aPos, 3, gl.FLOAT, false, 0, 0);
+		gl.vertexAttribPointer(aPos, vbo.position.itemSize, gl.FLOAT, false, 0, 0);
+
+		//how the fuck do I?
+		/*
+		//vertex normal
+		var aNorm = this.shader.attributes.normal;
+		gl.bindBuffer(gl.ARRAY_BUFFER, vbo.normalBuffer);
+		gl.bufferData(gl.ARRAY_BUFFER, this.normals, gl.STATIC_DRAW);
+		gl.enableVertexAttribArray(aNorm);
+		gl.vertexAttribPointer(aNorm, 3, gl.FLOAT, false, 0, 0);
+
+		//texture coordinates (aka. uv map for you artist fartists)
+		var aUv = this.shader.attributes.texcoords;
+		gl.bindBuffer(gl.ARRAY_BUFFER, texBuffer);
+		gl.bufferData(gl.ARRAY_BUFFER, this.uv, gl.STATIC_DRAW);
+		gl.enableVertexAttribArray(aUv);
+		gl.vertexAttribPointer(aUv, 2, gl.FLOAT, false, 0, 0);
+		*/
 	},
 
 	spawn: function(){
