@@ -7,6 +7,7 @@
 		<script src="src/camera.js"></script>
 		<script src="src/renderer/canvas.js"></script>
 		<script src="src/renderer/shader.js"></script>
+		<script src="src/renderer/texture.js"></script>
 		<script src="src/entity.js"></script>
 		<script src="src/input/input.js"></script>
 		<script src="src/slothmachine.js"></script>
@@ -22,18 +23,26 @@
 			uniform mat4 u_view;
 			uniform mat4 u_projection;
 
+			varying highp vec2 v_texCoords;
+
 			void main()
 			{
 				vec4 pos = u_model * u_view * u_projection * vec4(a_position, 1.0);
+				
 				gl_Position = pos;
+
+				v_texCoords = a_texCoords;
 			}
 		</script>
 		<script id="default-fragment" type="x-shader/x-fragment">
 			precision mediump float;
 
+			varying highp vec2 v_texCoords;
+			uniform sampler2D texture;
+
 			void main()
 			{
-				gl_FragColor = vec4(1.0, 0.0, 0.0, 1.0);
+				gl_FragColor = texture2D(texture, v_texCoords);
 			}
 		</script>
 
@@ -57,6 +66,7 @@
 				 0.2, 0.0, 0.0]);
 
 			spaceship.shader = new Shader(gl, "default");
+			spaceship.texture = new Texture(gl, "mf.png");
 			spaceship.init(gl);
 			spaceship.render = true;
 

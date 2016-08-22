@@ -19,6 +19,7 @@ function Entity() {
 	this.render		= false;
 
 	this.shader = null;
+	this.texture = null;
 
 	//default mesh: a simple plane
 	this.mesh = new Float32Array(
@@ -66,22 +67,22 @@ Entity.prototype = {
 		gl.enableVertexAttribArray(aPos);
 		gl.vertexAttribPointer(aPos, vbo.position.itemSize, gl.FLOAT, false, 0, 0);
 
-		//how the fuck do I?
 		/*
+		//how the fuck do I?
 		//vertex normal
 		var aNorm = this.shader.attributes.normal;
-		gl.bindBuffer(gl.ARRAY_BUFFER, vbo.normalBuffer);
+		gl.bindBuffer(gl.ARRAY_BUFFER, vbo.normal.buffer);
 		gl.bufferData(gl.ARRAY_BUFFER, this.normals, gl.STATIC_DRAW);
 		gl.enableVertexAttribArray(aNorm);
-		gl.vertexAttribPointer(aNorm, 3, gl.FLOAT, false, 0, 0);
+		gl.vertexAttribPointer(aNorm, vbo.normal.itemSize, gl.FLOAT, false, 0, 0);
+		*/
 
 		//texture coordinates (aka. uv map for you artist fartists)
 		var aUv = this.shader.attributes.texcoords;
-		gl.bindBuffer(gl.ARRAY_BUFFER, texBuffer);
+		gl.bindBuffer(gl.ARRAY_BUFFER, vbo.tex.buffer);
 		gl.bufferData(gl.ARRAY_BUFFER, this.uv, gl.STATIC_DRAW);
 		gl.enableVertexAttribArray(aUv);
-		gl.vertexAttribPointer(aUv, 2, gl.FLOAT, false, 0, 0);
-		*/
+		gl.vertexAttribPointer(aUv, vbo.tex.itemSize, gl.FLOAT, false, 0, 0);
 	},
 
 	spawn: function(){
@@ -121,6 +122,10 @@ Entity.prototype = {
 		gl.useProgram(this.shader.program);
 
 		var res = new Float32Array([game.renderer.width, game.renderer.height]);
+
+		gl.activeTexture(gl.TEXTURE0);
+		gl.bindTexture(gl.TEXTURE_2D, this.texture.texture);
+		gl.uniform1i(gl.getUniformLocation(this.shader.program, "texture"), 0);
 
 		//update uniforms
 		gl.uniform2f(this.shader.uniforms.resolution, gl.FALSE, res);
