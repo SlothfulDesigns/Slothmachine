@@ -1,20 +1,20 @@
 
 
 
-function Texture(gl, src){
+function Texture(entity, gl, src){
 	this.texture = gl.createTexture();
 	this.image = new Image();
-
-	gl.bindTexture(gl.TEXTURE_2D, this.texture);
-//	gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, 1, 1, 0, gl.RGBA, gl.UNSIGNED_BYTE,
-//				  new Uint8Array([255, 0, 0, 255]));
-
-	this.image.onLoad = function() {
-		gl.bindTexture(gl.TEXTURE_2D, this.texture);
-		gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, this.image);
-		gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.NEAREST);
-		gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.NEAREST);
-		gl.bindTexture(gl.TEXTURE_2D, null);
-	};
+	this.image.onload = function() { imageLoaded(entity, gl); };
 	this.image.src = "res/" + src;
 }
+
+function imageLoaded(entity, gl){
+	gl.bindTexture(gl.TEXTURE_2D, entity.texture.texture);
+	gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, entity.texture.image);
+	gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
+	gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
+	gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
+	gl.bindTexture(gl.TEXTURE_2D, null);
+	entity.textureLoaded = true;
+}
+

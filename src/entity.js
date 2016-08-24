@@ -18,6 +18,7 @@ function Entity() {
 	this.enemy		= false;
 	this.render		= false;
 	this.loaded     = false;
+	this.textureLoaded = false;
 
 	this.shader = null;
 	this.texture = null;
@@ -139,12 +140,6 @@ Entity.prototype = {
 	},
 
 	draw: function(gl){
-
-		if (!this.loaded || !this.render){
-			console.log("not drawing " + this);
-			return;
-		} 
-
 		//bind the shader
 		gl.useProgram(this.shader.program);
 
@@ -163,5 +158,6 @@ Entity.prototype = {
 		//draw stuff
 		gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, this.vbo.indices.buffer);
 		gl.drawElements(gl.TRIANGLES, this.vbo.indices.numItems, gl.UNSIGNED_SHORT, 0);
+		gl.bindTexture(gl.TEXTURE_2D, null);
 	}
 };

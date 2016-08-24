@@ -23,7 +23,7 @@
 			uniform mat4 u_view;
 			uniform mat4 u_projection;
 
-			varying highp vec2 v_texCoords;
+			varying vec2 v_texCoords;
 
 			void main()
 			{
@@ -37,12 +37,12 @@
 		<script id="default-fragment" type="x-shader/x-fragment">
 			precision mediump float;
 
-			varying highp vec2 v_texCoords;
+			varying vec2 v_texCoords;
 			uniform sampler2D texture;
 
 			void main()
 			{
-				gl_FragColor = texture2D(texture, v_texCoords);
+				gl_FragColor = texture2D(texture, vec2(v_texCoords.s, v_texCoords.t));
 			}
 		</script>
 
@@ -61,8 +61,8 @@
 
 			var spaceship = new Entity();
 			spaceship.shader = new Shader(gl, "default");
-			spaceship.texture = new Texture(gl, "mf.png");
 			spaceship.init(gl);
+			spaceship.texture = new Texture(spaceship, gl, "mf2.png");
 			spaceship.render = true;
 
 			//spaceship.position.x = 400;
