@@ -60,11 +60,6 @@
 			var gl = game.renderer.context;
 
 			var spaceship = new Entity();
-			spaceship.mesh = new Float32Array(
-				[0.0, 0.0, 0.0,
-				 0.1, 0.1, 0.0,
-				 0.2, 0.0, 0.0]);
-
 			spaceship.shader = new Shader(gl, "default");
 			spaceship.texture = new Texture(gl, "mf.png");
 			spaceship.init(gl);

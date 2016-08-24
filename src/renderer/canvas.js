@@ -35,7 +35,7 @@ Renderer.prototype = {
 		this.height = this.canvas.height;
 
 		this.context.viewport(0, 0, this.width, this.height);
-		this.context.clearColor(0.0, 0.0, 0.0, 1.0);
+		this.context.clearColor(1.0, 1.0, 1.0, 1.0);
 		this.context.enable(this.context.DEPTH_TEST);
 		this.context.depthFunc(this.context.LEQUAL);
 		this.context.clear(this.context.COLOR_BUFFER_BIT | this.context.DEPTH_BUFFER_BIT);

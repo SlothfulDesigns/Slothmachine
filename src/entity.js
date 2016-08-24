@@ -1,7 +1,7 @@
 function Entity() {
 	//simplified stuffs
 	this.position	= {x: 0.0, y: 0.0, z: 0.0};
-	this.scale		= {x: 1.0, y: 1.0, z: 0.0};
+	this.scale		= {x: 0.5, y: 0.5, z: 0.0};
 	this.velocity   = {x: 0.0, y: 0.0, z: 0.0};
 	this.rotation   = {x: 0.0, y: 0.0, z: 0.0};
 
@@ -17,24 +17,30 @@ function Entity() {
 	this.equippable = false;
 	this.enemy		= false;
 	this.render		= false;
+	this.loaded     = false;
 
 	this.shader = null;
 	this.texture = null;
+	this.vbo = null;
 
 	//default mesh: a simple plane
 	this.mesh = new Float32Array(
-		[0.0, 0.0, 0.0,
-		 0.0, 1.0, 0.0,
-		 1.0, 0.0, 0.0,
-		 1.0, 0.0, 0.0,
-		 1.0, 1.0, 0.0,
-		 0.0, 1.0, 0.0]);
+		[-1.0, -1.0,  0.0,
+		  1.0, -1.0,  0.0,
+		  1.0,  1.0,  0.0,
+		 -1.0,  1.0,  0.0,
+		 ]);
+
+	this.indices = new Uint16Array([
+		0, 1, 2,
+		0, 2, 3
+	]);
 
 	this.uv = new Float32Array([
 		0.0, 0.0,
-		0.0, 1.0,
+		1.0, 0.0,
 		1.0, 1.0,
-		1.0, 0.0
+		0.0, 1.0
 	]);
 
 	this.normals = new Float32Array([
@@ -44,28 +50,44 @@ function Entity() {
 
 Entity.prototype = {
 	init: function(gl) {
-
 		var vbo = {
 			position: {
+				data: this.mesh,
 				buffer: gl.createBuffer(),
-				itemSize: 3
+				itemSize: 3,
+				numItems: this.mesh.length / 3
 			},
 			normal: {
+				data: this.normals,
 				buffer: gl.createBuffer(),
-				itemSize: 3
+				itemSize: 3,
+				numItems: this.normals.length / 3
+			},
+			indices: {
+				data: this.indices,
+				buffer: gl.createBuffer(),
+				itemSize: 1,
+				numItems: this.indices.length
 			},
 			tex: {
+				data: this.uv,
 				buffer: gl.createBuffer(),
-				itemSize: 2
+				itemSize: 2,
+				numItems: this.uv.length / 2
 			},
 		};
+
+		this.vbo = vbo;
 
 		//vertex position
 		var aPos = this.shader.attributes.position;
 		gl.bindBuffer(gl.ARRAY_BUFFER, vbo.position.buffer);
-		gl.bufferData(gl.ARRAY_BUFFER, this.mesh, gl.STATIC_DRAW);
+		gl.bufferData(gl.ARRAY_BUFFER, vbo.position.data, gl.STATIC_DRAW);
 		gl.enableVertexAttribArray(aPos);
 		gl.vertexAttribPointer(aPos, vbo.position.itemSize, gl.FLOAT, false, 0, 0);
+
+		gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, vbo.indices.buffer);
+		gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, vbo.indices.data, gl.STATIC_DRAW);
 
 		/*
 		//how the fuck do I?
@@ -80,9 +102,11 @@ Entity.prototype = {
 		//texture coordinates (aka. uv map for you artist fartists)
 		var aUv = this.shader.attributes.texcoords;
 		gl.bindBuffer(gl.ARRAY_BUFFER, vbo.tex.buffer);
-		gl.bufferData(gl.ARRAY_BUFFER, this.uv, gl.STATIC_DRAW);
+		gl.bufferData(gl.ARRAY_BUFFER, vbo.tex.data, gl.STATIC_DRAW);
 		gl.enableVertexAttribArray(aUv);
 		gl.vertexAttribPointer(aUv, vbo.tex.itemSize, gl.FLOAT, false, 0, 0);
+
+		this.loaded = true;
 	},
 
 	spawn: function(){
@@ -116,7 +140,10 @@ Entity.prototype = {
 
 	draw: function(gl){
 
-		if (!this.render) return;
+		if (!this.loaded || !this.render){
+			console.log("not drawing " + this);
+			return;
+		} 
 
 		//bind the shader
 		gl.useProgram(this.shader.program);
@@ -133,8 +160,8 @@ Entity.prototype = {
 		gl.uniformMatrix4fv(this.shader.uniforms.view, gl.FALSE, game.camera.getView());
 		gl.uniformMatrix4fv(this.shader.uniforms.projection, gl.FALSE, game.camera.getProjection());
 
-		//draw vertex array
-		var numIndices = this.mesh.length / 3;
-		gl.drawArrays(gl.TRIANGLES,0, numIndices);
+		//draw stuff
+		gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, this.vbo.indices.buffer);
+		gl.drawElements(gl.TRIANGLES, this.vbo.indices.numItems, gl.UNSIGNED_SHORT, 0);
 	}
 };
