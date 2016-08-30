@@ -10,7 +10,7 @@ SlothMachine.prototype = {
 		this.renderer.init("game");
 
 		var aspect = this.renderer.width / this.renderer.height;
-		this.camera.setAspectRatio(90, aspect);
+		this.camera.setAspectRatio(60, aspect);
 	},
 
 	update: function() {

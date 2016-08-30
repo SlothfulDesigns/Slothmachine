@@ -72,9 +72,9 @@
 			//spaceship.position.x = 400;
 			//spaceship.position.y = 300;
 
-			//spaceship.scale.xyz = 0.1;
+			spaceship.scale.xyz = 0.1;
 		 
-			//game.camera.position.z = -5;
+			game.camera.position.z = -5;
 
 			var ticks = 0;
 			game.player = spaceship;
@@ -85,6 +85,7 @@
 				game.update();
 
 				spaceship.rotation.x += 0.1;
+				spaceship.rotation.y += 0.1;
 
 				spaceship.update();
 				spaceship.draw(gl);

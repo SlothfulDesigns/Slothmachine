@@ -1,7 +1,7 @@
 function Entity() {
 	//simplified stuffs
 	this.position	= {x: 0.0, y: 0.0, z: 0.0};
-	this.scale		= {x: 1.0, y: 1.0, z: 1.0};
+	this.scale		= {x: 0.5, y: 0.5, z: 0.5};
 	this.velocity   = {x: 0.0, y: 0.0, z: 0.0};
 	this.rotation   = {x: 0.0, y: 0.0, z: 0.0};
 	this.color      = {r: 0.0, g: 0.0, b: 0.0};
@@ -60,9 +60,9 @@ function Entity() {
 		 ]);
 
 	this.indices = new Uint16Array([
-		0, 1, 2,    0, 2, 3,  //front
-		4, 5, 6,    4, 6, 7,  //back
-		8, 9, 10,   8, 10, 11,  //top
+		0,  1,  2,     0,  2,  3,  //front
+		4,  5,  6,     4,  6,  7,  //back
+		8,  9,  10,    8,  10, 11,  //top
 		12, 13, 14,    12, 14, 15,  //bottom
 		16, 17, 18,    16, 18, 19,  //right
 		20, 21, 22,    20, 22, 23,  //left

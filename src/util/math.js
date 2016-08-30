@@ -76,12 +76,16 @@ function identityMatrix(){
 }
 
 function Perspective(fov, aspect, zNear, zFar){
-	var yMax = zNear * Math.tan(fov * Math.PI / 360.0);
-	var yMin = -yMax;
-	var xMin = yMin * aspect;
-	var xMax = yMax * aspect;
-	var p = Frustum(xMin, xMax, yMin, yMax, zNear, zFar);
-	return p;
+	var fovr = fov * Math.PI / 180.0;
+	var f = 1.0 / Math.tan(fovr / 2);
+	var r = 1.0 / (zNear - zFar);
+
+	return new Float32Array([
+		f / aspect, 0, 0, 0,
+		0, f, 0, 0,
+		0, 0, (zNear + zFar) * r, -1,
+		0, 0, zNear * zFar * r * 2, 0
+	]);
 }
 
 function Ortho(left, right, bottom, top, zNear, zFar){
