@@ -6,8 +6,11 @@ function Input(){
 Input.prototype = {
 	onKeyDown: function(key){
 		switch (key.keyCode) {
+			case 17:
+				game.player.velocity.z = -1;
+				break;
 			case 32:
-				game.player.shoot();
+				game.player.velocity.z = 1;
 				break;
 			case 37:
 				game.player.velocity.x = -1;
@@ -27,6 +30,11 @@ Input.prototype = {
 	onKeyUp: function(key) {
 
 		switch (key.keyCode) {
+			case 32:
+			case 17:
+				game.player.velocity.z = 0;
+			break;
+			
 			case 37:
 			case 39:
 				game.player.velocity.x = 0;

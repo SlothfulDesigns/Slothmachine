@@ -76,17 +76,32 @@ function identityMatrix(){
 }
 
 function Perspective(fov, aspect, zNear, zFar){
-	var perspective = new identityMatrix();
-	var halfTanFov = Math.tan(fov / 2);
+	var yMax = zNear * Math.tan(fov * Math.PI / 360.0);
+	var yMin = -yMax;
+	var xMin = yMin * aspect;
+	var xMax = yMax * aspect;
+	var p = Frustum(xMin, xMax, yMin, yMax, zNear, zFar);
+	return p;
+}
 
-	perspective[0] = 1 / (halfTanFov * aspect);
-	perspective[5] = 1 / halfTanFov;
-	perspective[10] = -1;
+function Ortho(left, right, bottom, top, zNear, zFar){
+	var ortho = new Float32Array([
+		2.0 / (right - left), 0.0, 0.0, -(right + left) / (right + left),
+		0.0, 2.0 / (top - bottom), 0.0, -(top + bottom) / (top - bottom),
+		0.0, 0.0, -2.0 / (zFar - zNear), -(zFar + zNear) / (zFar - zNear),
+		0.0, 0.0, 0.0, 1.0
+	]);
+	return ortho;
+}
 
-	perspective[9] = - (zFar + zNear) / (zFar - zNear);
-	perspective[8] = - (2 * zFar * zNear) / (zFar - zNear);
-	
-	return perspective;
+function Frustum(left, right, bottom, top, zNear, zFar){
+	var f = new Float32Array([
+		2.0 * zNear / (right - left), 0, (right + left) / (right - left), 0.0,
+		0.0, 2.0 * zNear / (top - bottom), (top + bottom) / (top - bottom), 0.0,
+		0.0, 0.0, -(zFar + zNear) / (zFar - zNear), -2 * zFar * zNear / (zFar - zNear),
+		0.0, 0.0, -1.0, 0.0
+	]);
+	return f;
 }
 
 function LookAt(position, direction, up){

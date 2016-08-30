@@ -26,6 +26,7 @@ Shader.prototype = {
 		this.uniforms.model = gl.getUniformLocation(this.program, "u_model");
 		this.uniforms.view = gl.getUniformLocation(this.program, "u_view");
 		this.uniforms.projection = gl.getUniformLocation(this.program, "u_projection");
+		this.uniforms.texture = gl.getUniformLocation(this.program, "u_texture");
 	},
 
 	createShader: function(context, type, source){
@@ -58,6 +59,12 @@ Shader.prototype = {
 		context.attachShader(program, vertex);
 		context.attachShader(program, fragment);
 		context.linkProgram(program);
+		context.validateProgram(program);
+
+		var progstatus = context.getProgramParameter(program, context.VALIDATE_STATUS);
+		if(progstatus){
+			console.log("Shader program: ERROR " + context.getProgramInfoLog(program));
+		}
 
 		var success = context.getProgramParameter(program, context.LINK_STATUS);
 		if(success){

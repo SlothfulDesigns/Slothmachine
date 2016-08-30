@@ -2,14 +2,14 @@ function Camera(){
 	this.position = {x: 0.0, y: 0.0, z: 0.0};
 	this.rotation = {x: 0.0, y: 0.0, z: 0.0};
 	this.transform = new Transform();
-
 	this.projection = new identityMatrix();
 	this.view = new identityMatrix();
 }
 
 Camera.prototype = {
 	setAspectRatio: function(fov, aspectRatio){
-		this.projection = Perspective(fov, aspectRatio, 0.1, 100.0);
+		//this.projection = Perspective(fov, aspectRatio, 0.1, 100.0);
+		this.projection = Ortho(0.0, 800.0, 0.0, 600.0, 0.1, 100.0);
 	},
 
 	getProjection: function() {
