@@ -15,9 +15,8 @@ function Entity() {
 
 	//init rendering stuffs
 	var geometry = new THREE.BoxGeometry( 1, 1, 1 );
-	var material = new THREE.MeshBasicMaterial( { color: 0x666666 } );
+	var material = new THREE.MeshStandardMaterial( { color: 0x808080 } );
 	this.mesh = new THREE.Mesh( geometry, material );
-	game.scene.add( this.mesh );
 }
 
 Entity.prototype = {

@@ -5,7 +5,9 @@ function SlothMachine() {
 	this.renderer = new THREE.WebGLRenderer();
 	this.camera = new THREE.PerspectiveCamera(75, this.width/this.height, 0.1, 1000);
 	this.scene = new THREE.Scene();
+
 	this.input = new Input();
+
 	this.entities = [];
 }
 
@@ -13,10 +15,16 @@ SlothMachine.prototype = {
 	init: function(){
 		this.renderer.setSize(this.width, this.height);
 		document.body.appendChild(this.renderer.domElement);
+	},
 
-		var light = new THREE.DirectionalLight( 0xffffff, 0.5 );
-		light.position.set( 0, 1, 0 );
-		this.scene.add(light);
+	start: function(){
+		this.gameLoop();
+	},
+
+	gameLoop: function(){
+		requestAnimationFrame(this.gameLoop.bind(this));
+		this.update();
+		this.render();
 	},
 
 	update: function() {
@@ -30,5 +38,5 @@ SlothMachine.prototype = {
 			entity.render();
 		});
 		this.renderer.render(this.scene, this.camera);
-	}
+	},
 };

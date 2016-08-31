@@ -5,30 +5,12 @@
 		<script src="src/entity.js"></script>
 		<script src="src/input/input.js"></script>
 		<script src="src/slothmachine.js"></script>
+		<script src="game.js"></script>
 	</head>
 	<body>
 		<script type="text/javascript">
-		    var fps = 60;
-			var game = new SlothMachine("game");
-
-			//init the engine and it's components
-			game.init();
-
-			var spaceship = new Entity();
-			game.entities.push(spaceship);
-
-			game.player = spaceship;
-			game.camera.position.z = 5;
-
-			//start the game
-			function gameLoop(){
-				requestAnimationFrame(gameLoop);
-				game.update();
-				game.render();
-			};
-
-			gameLoop();
-
+			var game = new Game();
+			game.start();
 		</script>
 	</body>
 </html>

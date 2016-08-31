@@ -5,6 +5,9 @@ function Input(){
 
 Input.prototype = {
 	onKeyDown: function(key){
+
+		//handle player controls, skip if no players active
+		if(game.player === null) return;
 		switch (key.keyCode) {
 			case 17:
 				game.player.velocity.z = -1;
@@ -29,6 +32,8 @@ Input.prototype = {
 
 	onKeyUp: function(key) {
 
+		//handle player controls, skip if no players active
+		if(game.player === null) return;
 		switch (key.keyCode) {
 			case 32:
 			case 17:
