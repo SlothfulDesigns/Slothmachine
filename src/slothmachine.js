@@ -9,6 +9,7 @@ function SlothMachine() {
 	this.input = new Input();
 
 	this.entities = [];
+	this.brushes = [];
 }
 
 SlothMachine.prototype = {
@@ -34,6 +35,13 @@ SlothMachine.prototype = {
 	},
 
 	render: function() {
+
+		//render world
+		this.brushes.forEach(function(brush){
+			brush.render();
+		});
+
+		//render entities
 		this.entities.forEach(function(entity){
 			entity.render();
 		});

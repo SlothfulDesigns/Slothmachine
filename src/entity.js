@@ -1,10 +1,10 @@
 function Entity() {
 	//simplified stuffs
 	this.position	= {x: 0.0, y: 0.0, z: 0.0};
-	this.scale		= {x: 0.5, y: 0.5, z: 0.5};
+	this.scale		= {x: 1.0, y: 1.0, z: 1.0};
 	this.velocity   = {x: 0.0, y: 0.0, z: 0.0};
 	this.rotation   = {x: 0.0, y: 0.0, z: 0.0};
-	this.color      = {r: 0.0, g: 0.0, b: 0.0};
+	this.color      = 0x404040;
 	this.speed      = 0.1;
 
 	//position, rotation & scale matrices
@@ -14,8 +14,10 @@ function Entity() {
 	this.enemy			= false;
 
 	//init rendering stuffs
-	var geometry = new THREE.BoxGeometry( 1, 1, 1 );
-	var material = new THREE.MeshStandardMaterial( { color: 0x808080 } );
+	var geometry = new THREE.BoxGeometry(this.scale.x, this.scale.y, this.scale.z);
+	var material = new THREE.MeshStandardMaterial( { color: this.color } );
+	material.roughness = 0.2;
+	material.metallic = 0.4;
 	this.mesh = new THREE.Mesh( geometry, material );
 }
 
