@@ -1,4 +1,5 @@
 /*jshint esversion: 6*/
+
 class Entity {
 	constructor(engine) {
 
@@ -24,6 +25,14 @@ class Entity {
 	}
 
 	update() {
+
+		//todo: put this stuff somewhere else
+		if(this.velocity.x !== 0 || this.velocity.y !== 0 || this.velocity.z !== 0) {
+			this.position.x += this.velocity.x * this.speed;
+			this.position.y += this.velocity.y * this.speed;
+			this.position.z += this.velocity.z * this.speed;
+		}
+
 		this.components.forEach(function(component){
 			component.update();
 		});

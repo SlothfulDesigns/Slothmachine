@@ -24,8 +24,9 @@ Game.prototype = {
 
 		var spaceship = new Entity(this.engine);
 		spaceship.components.push(new Mesh(spaceship));
-		
 		this.player = spaceship;
+
+		var input = new Input(spaceship);
 
 		/*
 		var room = new Brush();

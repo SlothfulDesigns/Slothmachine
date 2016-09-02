@@ -1,11 +1,12 @@
-function Input(){
-	window.addEventListener("keydown", this.onKeyDown, true);
-	window.addEventListener("keyup", this.onKeyUp, true);
-}
+/*jshint esversion: 6*/
 
-Input.prototype = {
-	onKeyDown: function(key){
+class Input {
+	constructor(player){
+		window.addEventListener("keydown", this.onKeyDown, true);
+		window.addEventListener("keyup", this.onKeyUp, true);
+	}
 
+	onKeyDown(key){
 		//handle player controls, skip if no players active
 		if(game.player === null) return;
 		switch (key.keyCode) {
@@ -33,10 +34,9 @@ Input.prototype = {
 				game.player.velocity.y = -1;
 				break;
 		}
-	},
+	}
 
-	onKeyUp: function(key) {
-
+	onKeyUp(key) {
 		//handle player controls, skip if no players active
 		if(game.player === null) return;
 		switch (key.keyCode) {
@@ -49,10 +49,11 @@ Input.prototype = {
 			case 39:
 				game.player.velocity.x = 0;
 				break;
+
 			case 38:
 			case 40:
 				game.player.velocity.z = 0;
 				break;
 		}
 	}
-};
+}

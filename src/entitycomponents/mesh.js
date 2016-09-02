@@ -1,3 +1,5 @@
+/*jshint esversion: 6*/
+
 class Mesh extends EntityComponent {
 
 	constructor(parent){

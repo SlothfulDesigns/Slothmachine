@@ -1,3 +1,5 @@
+/*jshint esversion: 6*/
+
 class SlothMachine {
 
 	constructor(){
@@ -7,7 +9,6 @@ class SlothMachine {
 		this.renderer = new THREE.WebGLRenderer();
 		this.camera = new THREE.PerspectiveCamera(75, this.width/this.height, 0.1, 1000);
 		this.scene = new THREE.Scene();
-		this.input = new Input();
 
 		this.entities = [];
 		this.brushes = [];
