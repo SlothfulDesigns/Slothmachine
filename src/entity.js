@@ -1,3 +1,4 @@
+/*jshint esversion: 6*/
 class Entity {
 	constructor(engine) {
 
@@ -18,6 +19,8 @@ class Entity {
 		this.enemy			= false;
 
 		this.components = [];
+
+		engine.entities.push(this);
 	}
 
 	update() {
