@@ -9,6 +9,7 @@ class Light extends EntityComponent {
 		this.intensity = 10.0;
 		this.range = 1000.0;
 		this.decay = 2.0;
+		this.castShadow = false;
 	}
 
 	update() {
@@ -17,6 +18,8 @@ class Light extends EntityComponent {
 		this.light.position.x = this.parent.position.x;
 		this.light.position.y = this.parent.position.y;
 		this.light.position.z = this.parent.position.z;
+
+		this.light.castShadow = this.castShadow;
 	}
 
 	setIntensity(intensity){
@@ -25,6 +28,12 @@ class Light extends EntityComponent {
 
 	setColor(color){
 		this.light.color = new THREE.Color(color);
+	}
+
+	visualize() {
+		var sphere = new THREE.Mesh(new THREE.SphereGeometry(1, 16, 16),
+									new THREE.MeshBasicMaterial({color: this.color}));
+		this.parent.engine.scene.add(sphere);
 	}
 }
 
@@ -36,7 +45,6 @@ class PointLight extends Light {
 										  this.intensity,
 										  this.range,
 										  this.decay);
-		this.light.Visualize();
 
 		this.parent.engine.scene.add(this.light);
 	}

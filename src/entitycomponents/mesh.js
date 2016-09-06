@@ -7,6 +7,8 @@ class Mesh extends EntityComponent {
 		this.geometry = new THREE.BoxGeometry(parent.scale.x, parent.scale.y, parent.scale.z);
 		this.material = new THREE.MeshStandardMaterial( { color: parent.color } );
 		this.mesh = new THREE.Mesh( this.geometry, this.material );
+		this.mesh.castShadow = true;
+		this.mesh.receiveShadow = true;
 		this.parent.engine.scene.add(this.mesh);
 	}
 

@@ -5,10 +5,6 @@ function Game(){
 	this.player = null;
 }
 
-THREE.PointLight.prototype.Visualize = function(){
-	this.sphere = new THREE.Mesh(new THREE.SphereGeometry(1, 16, 16), new THREE.MeshBasicMaterial({color: this.color}));
-	this.add(this.sphere);
-};
 
 Game.prototype = {
 
@@ -33,6 +29,7 @@ Game.prototype = {
 		light.position.z = 5;
 		light.components.push(new PointLight(light));
 		light.components[0].setIntensity(10.0);
+		light.components[0].castShadow = true;
 
 		var light2 = new Entity(this.engine);
 		light2.position.y = 10;
@@ -40,6 +37,7 @@ Game.prototype = {
 		light2.components.push(new PointLight(light));
 		light2.components[0].setIntensity(10.0);
 		light2.components[0].setColor(0x000066);
+		light2.components[0].castShadow = true;
 
 		var room = new Brush();
 		room.setPosition(0, 3.2, 0); //behind the player obv

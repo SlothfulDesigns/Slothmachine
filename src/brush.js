@@ -47,6 +47,8 @@ Brush.prototype = {
 		this.material.roughness = 0.8;
 		this.material.metallic = 0.5;
 		this.mesh = new THREE.Mesh( this.geometry, this.material );
+		this.mesh.castShadow = true;
+		this.mesh.receiveShadow = true;
 
 		//update position and rotation
 		this.mesh.position.x = this.position.x;
