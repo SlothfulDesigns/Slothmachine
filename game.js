@@ -33,6 +33,21 @@ Game.prototype = {
 		light.position.z = 5;
 		light.components.push(new PointLight(light));
 		light.components[0].setIntensity(10.0);
+
+		var light2 = new Entity(this.engine);
+		light2.position.y = 10;
+		light2.position.z = -10;
+		light2.components.push(new PointLight(light));
+		light2.components[0].setIntensity(10.0);
+		light2.components[0].setColor(0x000066);
+
+		var room = new Brush();
+		room.setPosition(0, 3.2, 0); //behind the player obv
+		room.setScale(20, 8, 20);
+		room.setColor(0x040404);
+		room.material.side = THREE.BackSide;
+		this.engine.brushes.push(room);
+		this.engine.scene.add(room.mesh);
 	},
 };
 

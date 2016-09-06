@@ -4,9 +4,11 @@ class Light extends EntityComponent {
 	constructor(parent){
 		super(parent);
 
-		this.color = 0xFFFFFF;
-		this.intensity = 1.0;
+		this.light = null;
+		this.color = 0xffffff;
+		this.intensity = 10.0;
 		this.range = 1000.0;
+		this.decay = 2.0;
 	}
 
 	update() {
@@ -18,7 +20,11 @@ class Light extends EntityComponent {
 	}
 
 	setIntensity(intensity){
-		this.intensity = intensity;
+		this.light.intensity = intensity;
+	}
+
+	setColor(color){
+		this.light.color = new THREE.Color(color);
 	}
 }
 
@@ -26,12 +32,12 @@ class PointLight extends Light {
 	constructor(parent){
 		super(parent);
 
-		this.light = new THREE.PointLight(this.parent.color, this.parent.intensity, this.parent.range);
-		this.parent.engine.scene.add(this.light);
-	}
+		this.light = new THREE.PointLight(this.color,
+										  this.intensity,
+										  this.range,
+										  this.decay);
+		this.light.Visualize();
 
-	setIntensity(intensity){
-		super.setIntensity();
-		this.light.intensity = intensity;
+		this.parent.engine.scene.add(this.light);
 	}
 }
