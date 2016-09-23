@@ -20,7 +20,13 @@ Game.prototype = {
 
 		var spaceship = new Entity(this.engine);
 		spaceship.components.push(new Mesh(spaceship));
+		spaceship.components.push(new BoxCollider(spaceship));
 		this.player = spaceship;
+
+		var cube = new Entity(this.engine);
+		cube.components.push(new Mesh(cube));
+		cube.components.push(new BoxCollider(cube));
+		cube.position.z = -5;
 
 		var input = new Input(spaceship);
 

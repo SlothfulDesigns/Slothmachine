@@ -22,5 +22,9 @@ class Mesh extends EntityComponent {
 		this.mesh.rotation.x = this.parent.rotation.x;
 		this.mesh.rotation.y = this.parent.rotation.y;
 		this.mesh.rotation.z = this.parent.rotation.z;
+
+		this.mesh.scale.x = this.parent.scale.x;
+		this.mesh.scale.y = this.parent.scale.y;
+		this.mesh.scale.z = this.parent.scale.z;
 	}
 }
